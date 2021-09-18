@@ -1,4 +1,4 @@
-package com.ots.springsurvey;
+package com.ots.springsurvey.services;
 
 import com.ots.springsurvey.domain.Answer;
 import com.ots.springsurvey.domain.Question;
