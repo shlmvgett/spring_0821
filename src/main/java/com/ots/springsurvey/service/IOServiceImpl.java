@@ -19,11 +19,14 @@ public class IOServiceImpl implements IOService {
   private final PrintStream printStream;
 
   @Autowired
-  public IOServiceImpl(MessageSource messageSource, @Value("${survey.locale}") String locale) {
+  public IOServiceImpl(MessageSource messageSource,
+                       @Value("${survey.locale}") String locale,
+                       @Value("#{ T(java.lang.System).in}") InputStream inputStream,
+                       @Value("#{ T(java.lang.System).out}") PrintStream printStream) {
     this.messageSource = messageSource;
     this.locale = Locale.forLanguageTag(locale);
-    this.inputStream = System.in;
-    this.printStream = System.out;
+    this.inputStream = inputStream;
+    this.printStream = printStream;
   }
 
   @Override

@@ -1,5 +1,6 @@
 target/
 .DS_Store
+spring-shell.log
 
 ### STS ###
 .apt_generated
