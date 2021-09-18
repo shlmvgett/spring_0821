@@ -1,2 +1,8 @@
 survey:
     path: survey.csv
+    locale: ru-Ru
+
+spring:
+    messages:
+        basename: i18n/messages
+

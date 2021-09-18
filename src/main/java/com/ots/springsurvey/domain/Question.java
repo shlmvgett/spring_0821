@@ -1,22 +1,21 @@
 package com.ots.springsurvey.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 public class Question {
 
-  private String text;
-  private List<String> answers;
-  private int rightAnswer;
-  private boolean isRightAnswered;
+  private final int id;
+  private final String text;
+  private final List<String> answers;
+  private final int rightAnswer;
 
-  public Question(String text, int rightAnswer, List<String> answers) {
+  public Question(int id, String text, int rightAnswer, List<String> answers) {
+    this.id = id;
     this.text = text;
     this.answers = answers;
     this.rightAnswer = rightAnswer;

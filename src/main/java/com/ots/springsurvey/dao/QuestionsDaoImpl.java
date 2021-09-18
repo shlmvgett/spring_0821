@@ -3,14 +3,11 @@ package com.ots.springsurvey.dao;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import com.ots.springsurvey.domain.Question;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,24 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
-@Getter
-@Component
+@Repository
 public class QuestionsDaoImpl implements QuestionsDao {
 
-  @Value("${survey.path}")
-  private String surveyPath;
+  private final String surveyPath;
+
+  public QuestionsDaoImpl(@Value("${survey.path}") String surveyPath) {
+    this.surveyPath = surveyPath;
+  }
 
   @Override
-  public List<Question> getContent() {
+  public List<Question> getQuestions() {
     List<Question> questions = new ArrayList<>();
-    try (Reader reader = Files.newBufferedReader(Paths.get(ClassLoader.getSystemResource("survey.csv").toURI()))) {
+    try (CSVReader csvReader =
+             new CSVReader(Files.newBufferedReader(Paths.get(ClassLoader.getSystemResource(surveyPath).toURI())))) {
       String[] questionLine;
-      CSVReader csvReader = new CSVReader(reader);
       while ((questionLine = csvReader.readNext()) != null) {
         List<String> line = List.of(questionLine);
-        questions.add(new Question(line.get(0), Integer.parseInt(line.get(1)), line.subList(2, line.size())));
+        questions.add(new Question(
+            Integer.parseInt(line.get(0)),
+            line.get(1),
+            Integer.parseInt(line.get(2)),
+            line.subList(3, line.size())));
       }
-      csvReader.close();
     } catch (IOException | CsvException | URISyntaxException e) {
       throw new RuntimeException(e);
     }

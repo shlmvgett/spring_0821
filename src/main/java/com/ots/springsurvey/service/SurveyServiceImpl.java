@@ -1,47 +1,61 @@
 package com.ots.springsurvey.service;
 
+import com.ots.springsurvey.dao.QuestionsDao;
+import com.ots.springsurvey.domain.Answer;
+import com.ots.springsurvey.domain.Question;
+import com.ots.springsurvey.domain.Survey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ots.springsurvey.domain.*;
 
 import java.util.Scanner;
 
 @Service
 public class SurveyServiceImpl implements SurveyService {
 
-  private final Survey survey;
+  private final Survey survey = new Survey();
+  private final QuestionsDao questionsDao;
+  private final IOService ioService;
+  private final ResultService resultService;
 
-  public SurveyServiceImpl(Survey survey) {
-    this.survey = survey;
+  @Autowired
+  public SurveyServiceImpl(QuestionsDao questionsDao, IOService ioService, ResultService resultService) {
+    this.questionsDao = questionsDao;
+    this.ioService = ioService;
+    this.resultService = resultService;
+  }
+
+  @Override
+  public void run() {
+    inputParticipantName();
+    startSurvey();
+    calculateResult();
   }
 
   @Override
   public void inputParticipantName() {
-    Scanner in = new Scanner(System.in);
-    System.out.print("Input your name: ");
-    survey.setParticipant(in.nextLine());
+    survey.setParticipant(ioService.in("strings.input.name").nextLine());
   }
 
   @Override
   public void startSurvey() {
+    survey.setQuestions(questionsDao.getQuestions());
     for (Question question : survey.getQuestions()) {
-      System.out.println("\nQuestion: " + question.getText());
-      System.out.println("Answers: " + question.getAnswers());
-      System.out.print("Answer number: ");
-      Scanner in = new Scanner(System.in);
+      ioService.out("strings.question.text", question.getText());
+      ioService.out("strings.question.answers", question.getAnswers().toString());
+      ioService.out("strings.question.response");
+      Scanner in = ioService.in();
       while (!in.hasNextInt()) {
-        System.out.println("Input should contains answer's number");
+        ioService.out("strings.question.response.error");
         in = new Scanner(System.in);
       }
       int answerNumber = in.nextInt();
-      question.setRightAnswered(answerNumber == question.getRightAnswer());
+      survey.addAnswer(new Answer(question.getId(), answerNumber));
     }
   }
 
   @Override
-  public void printResult() {
-    System.out.println("\nResults");
-    for (Question question : survey.getQuestions()) {
-      System.out.println("Question: " + question.getText() + ", answer is: " + question.isRightAnswered());
-    }
+  public void calculateResult() {
+    resultService.checkResult(survey);
+    resultService.printResult(survey);
   }
 }
