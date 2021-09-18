@@ -10,11 +10,7 @@ public class Application {
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(Application.class, args);
-
-		SurveyService service = ctx.getBean(SurveyService.class);
-		service.inputParticipantName();
-		service.startSurvey();
-		service.printResult();
+		ctx.getBean(SurveyService.class).run();
 	}
 
 }
