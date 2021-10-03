@@ -1,0 +1,8 @@
+spring:
+    datasource:
+        initialization-mode: always
+        data: data.sql
+
+    shell:
+        interactive:
+            enabled: false
