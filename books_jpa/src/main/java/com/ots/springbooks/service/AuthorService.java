@@ -1,4 +1,4 @@
-package com.ots.springbooks.service.interfaces;
+package com.ots.springbooks.service;
 
 public interface AuthorService {
 

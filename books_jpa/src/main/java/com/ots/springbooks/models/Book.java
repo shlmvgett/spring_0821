@@ -29,7 +29,7 @@ public class Book {
   private Genre genre;
 
   @JoinColumn(name = "book_id")
-  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Comment> comments;
 
   public Book(String title, Author author, Genre genre) {

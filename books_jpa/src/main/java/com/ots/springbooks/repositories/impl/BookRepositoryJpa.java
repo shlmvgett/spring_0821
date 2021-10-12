@@ -1,7 +1,7 @@
-package com.ots.springbooks.repositories;
+package com.ots.springbooks.repositories.impl;
 
 import com.ots.springbooks.models.Book;
-import com.ots.springbooks.repositories.interfaces.BookRepository;
+import com.ots.springbooks.repositories.BookRepository;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.*;
@@ -19,24 +19,14 @@ public class BookRepositoryJpa implements BookRepository {
   @Override
   public List<Book> findAll() {
     TypedQuery<Book> query =
-        em.createQuery(
-            "select b from Book b join fetch b.comments join fetch b.genre join fetch b.author",
-            Book.class);
+        em.createQuery("select b from Book b join fetch b.genre join fetch b.author", Book.class);
     return query.getResultList();
   }
 
   @Override
   public Optional<Book> findById(long id) {
-    TypedQuery<Book> query =
-        em.createQuery(
-            "select b from Book b join fetch b.comments join fetch b.genre join fetch b.author where b.id = :id",
-            Book.class);
-    query.setParameter("id", id);
-    try {
-      return Optional.of(query.getSingleResult());
-    } catch (NoResultException e) {
-      return Optional.empty();
-    }
+    Book book = em.find(Book.class, id);
+    return Optional.ofNullable(book);
   }
 
   @Override
@@ -60,17 +50,7 @@ public class BookRepositoryJpa implements BookRepository {
   }
 
   @Override
-  public void updateTitleById(long id, String title) {
-    Query query = em.createQuery("update Book b set b.title = :title where b.id = :id");
-    query.setParameter("title", title);
-    query.setParameter("id", id);
-    query.executeUpdate();
-  }
-
-  @Override
-  public void deleteById(long id) {
-    Query query = em.createQuery("delete from Book b where b.id = :id");
-    query.setParameter("id", id);
-    query.executeUpdate();
+  public void deleteById(Book book) {
+    em.remove(book);
   }
 }

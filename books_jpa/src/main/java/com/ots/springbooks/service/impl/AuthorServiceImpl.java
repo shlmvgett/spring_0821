@@ -1,9 +1,9 @@
-package com.ots.springbooks.service;
+package com.ots.springbooks.service.impl;
 
 import com.ots.springbooks.models.Author;
-import com.ots.springbooks.repositories.interfaces.AuthorRepository;
-import com.ots.springbooks.service.interfaces.AuthorService;
-import com.ots.springbooks.service.interfaces.IOService;
+import com.ots.springbooks.repositories.AuthorRepository;
+import com.ots.springbooks.service.AuthorService;
+import com.ots.springbooks.service.IOService;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,6 @@ public class AuthorServiceImpl implements AuthorService {
   private final AuthorRepository authorRepository;
 
   @Override
-  @Transactional
   public void getAllAuthors() {
     List<Author> authors = authorRepository.findAll();
     if (!CollectionUtils.isEmpty(authors)) {
@@ -32,7 +31,6 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  @Transactional
   public void getAuthorById() {
     ioService.print("Type Author id:");
     long authorId = Long.parseLong(ioService.read());
@@ -64,7 +62,8 @@ public class AuthorServiceImpl implements AuthorService {
     } else {
       ioService.print("Type Author name:");
       String authorName = ioService.read();
-      authorRepository.updateNameById(author.get().getId(), authorName);
+      author.get().setName(authorName);
+      authorRepository.save(author.get());
       ioService.print("Author was updated");
     }
   }
@@ -75,7 +74,7 @@ public class AuthorServiceImpl implements AuthorService {
     long authorId = Long.parseLong(ioService.read());
     Optional<Author> author = authorRepository.findById(authorId);
     if (author.isPresent()) {
-      authorRepository.deleteById(author.get().getId());
+      authorRepository.deleteById(author.get());
       ioService.print("Author was deleted");
     } else {
       ioService.print("Author wasn't found");

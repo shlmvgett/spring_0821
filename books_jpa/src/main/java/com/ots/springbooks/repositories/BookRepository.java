@@ -1,4 +1,4 @@
-package com.ots.springbooks.repositories.interfaces;
+package com.ots.springbooks.repositories;
 
 import com.ots.springbooks.models.Book;
 import java.util.List;
@@ -14,7 +14,5 @@ public interface BookRepository {
 
   Book save(Book book);
 
-  void updateTitleById(long id, String title);
-
-  void deleteById(long id);
+  void deleteById(Book book);
 }

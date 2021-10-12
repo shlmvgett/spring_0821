@@ -1,6 +1,6 @@
 package com.ots.springbooks.controllers;
 
-import com.ots.springbooks.service.interfaces.GenreService;
+import com.ots.springbooks.service.GenreService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;

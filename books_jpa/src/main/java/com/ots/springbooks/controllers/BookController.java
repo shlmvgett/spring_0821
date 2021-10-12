@@ -1,6 +1,6 @@
 package com.ots.springbooks.controllers;
 
-import com.ots.springbooks.service.interfaces.BookService;
+import com.ots.springbooks.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -14,35 +14,35 @@ public class BookController {
   @ShellMethod(
       value = "Get all Books",
       key = {"gab"})
-  public void getAllAuthors() {
+  public void getAllBooks() {
     bookService.getAllBooks();
   }
 
   @ShellMethod(
       value = "Get Book by Id",
       key = {"gbi"})
-  public void getAuthorById() {
+  public void getBookById() {
     bookService.getBookById();
   }
 
   @ShellMethod(
       value = "Insert Book",
       key = {"ib"})
-  public void insertAuthor() {
+  public void insertBook() {
     bookService.insertBook();
   }
 
   @ShellMethod(
       value = "Update Book",
       key = {"ub"})
-  public void updateAuthor() {
+  public void updateBook() {
     bookService.updateBook();
   }
 
   @ShellMethod(
       value = "Delete Book",
       key = {"db"})
-  public void deleteAuthor() {
+  public void deleteBook() {
     bookService.deleteBook();
   }
 }

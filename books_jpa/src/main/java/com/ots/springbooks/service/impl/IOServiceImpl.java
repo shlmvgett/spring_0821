@@ -1,6 +1,6 @@
-package com.ots.springbooks.service;
+package com.ots.springbooks.service.impl;
 
-import com.ots.springbooks.service.interfaces.IOService;
+import com.ots.springbooks.service.IOService;
 import java.util.Scanner;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

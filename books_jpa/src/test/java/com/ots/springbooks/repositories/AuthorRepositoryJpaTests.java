@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ots.springbooks.models.Author;
-import com.ots.springbooks.repositories.interfaces.AuthorRepository;
+import com.ots.springbooks.repositories.impl.AuthorRepositoryJpa;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
@@ -58,9 +58,9 @@ public class AuthorRepositoryJpaTests {
     final String NEW_NAME = "new_name";
     Author author = em.find(Author.class, 1L);
     assertEquals("author_1", author.getName());
-    em.detach(author);
 
-    authorRepository.updateNameById(1, NEW_NAME);
+    author.setName(NEW_NAME);
+    authorRepository.save(author);
 
     author = em.find(Author.class, 1L);
     assertEquals(NEW_NAME, author.getName());
@@ -71,9 +71,8 @@ public class AuthorRepositoryJpaTests {
   void deleteAuthorTest() {
     Author author = em.find(Author.class, 3L);
     assertThat(author).isNotNull();
-    em.detach(author);
 
-    authorRepository.deleteById(3L);
+    authorRepository.deleteById(author);
     author = em.find(Author.class, 3L);
     assertThat(author).isNull();
   }

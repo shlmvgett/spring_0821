@@ -1,6 +1,6 @@
 package com.ots.springbooks.controllers;
 
-import com.ots.springbooks.service.interfaces.CommentService;
+import com.ots.springbooks.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -14,35 +14,42 @@ public class CommentController {
   @ShellMethod(
       value = "Get all Comments",
       key = {"gac"})
-  public void getAllGenres() {
+  public void getAllComments() {
     commentService.getAll();
   }
 
   @ShellMethod(
       value = "Get Comment by Id",
       key = {"gci"})
-  public void getGenreById() {
+  public void getCommentById() {
     commentService.getById();
+  }
+
+  @ShellMethod(
+      value = "Get Comment by book Id",
+      key = {"gcbi"})
+  public void getCommentsByBookId() {
+    commentService.getCommentsByBookId();
   }
 
   @ShellMethod(
       value = "Insert Comment",
       key = {"ic"})
-  public void insertGenre() {
+  public void insertComment() {
     commentService.insert();
   }
 
   @ShellMethod(
       value = "Update Comment",
       key = {"uc"})
-  public void updateGenre() {
+  public void updateComment() {
     commentService.update();
   }
 
   @ShellMethod(
       value = "Delete Comment",
       key = {"dc"})
-  public void deleteGenre() {
+  public void deleteComment() {
     commentService.delete();
   }
 }

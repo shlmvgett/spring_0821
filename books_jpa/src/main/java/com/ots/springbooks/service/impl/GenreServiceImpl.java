@@ -1,9 +1,9 @@
-package com.ots.springbooks.service;
+package com.ots.springbooks.service.impl;
 
 import com.ots.springbooks.models.Genre;
-import com.ots.springbooks.repositories.interfaces.GenreRepository;
-import com.ots.springbooks.service.interfaces.GenreService;
-import com.ots.springbooks.service.interfaces.IOService;
+import com.ots.springbooks.repositories.GenreRepository;
+import com.ots.springbooks.service.GenreService;
+import com.ots.springbooks.service.IOService;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,6 @@ public class GenreServiceImpl implements GenreService {
   private final GenreRepository genreRepository;
 
   @Override
-  @Transactional
   public void getAllGenres() {
     List<Genre> genres = genreRepository.findAll();
     if (!CollectionUtils.isEmpty(genres)) {
@@ -32,7 +31,6 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  @Transactional
   public void getGenreById() {
     ioService.print("Type genre id:");
     long genreId = Long.parseLong(ioService.read());
@@ -64,7 +62,8 @@ public class GenreServiceImpl implements GenreService {
     } else {
       ioService.print("Type genre name:");
       String genreName = ioService.read();
-      genreRepository.updateTitleById(genre.get().getId(), genreName);
+      genre.get().setTitle(genreName);
+      genreRepository.save(genre.get());
       ioService.print("genre was updated");
     }
   }
@@ -76,7 +75,7 @@ public class GenreServiceImpl implements GenreService {
     long genreId = Long.parseLong(ioService.read());
     Optional<Genre> genre = genreRepository.findById(genreId);
     if (genre.isPresent()) {
-      genreRepository.deleteById(genre.get().getId());
+      genreRepository.deleteById(genre.get());
       ioService.print("genre was deleted");
     } else {
       ioService.print("genre wasn't found");
