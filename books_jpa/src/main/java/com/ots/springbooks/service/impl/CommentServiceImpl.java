@@ -1,9 +1,11 @@
-package com.ots.springbooks.service;
+package com.ots.springbooks.service.impl;
 
+import com.ots.springbooks.models.Book;
 import com.ots.springbooks.models.Comment;
-import com.ots.springbooks.repositories.interfaces.CommentRepository;
-import com.ots.springbooks.service.interfaces.CommentService;
-import com.ots.springbooks.service.interfaces.IOService;
+import com.ots.springbooks.repositories.BookRepository;
+import com.ots.springbooks.repositories.CommentRepository;
+import com.ots.springbooks.service.CommentService;
+import com.ots.springbooks.service.IOService;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -17,9 +19,9 @@ public class CommentServiceImpl implements CommentService {
 
   private final IOService ioService;
   private final CommentRepository commentRepository;
+  private final BookRepository bookRepository;
 
   @Override
-  @Transactional
   public void getAll() {
     List<Comment> comments = commentRepository.findAll();
     if (!CollectionUtils.isEmpty(comments)) {
@@ -30,7 +32,6 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  @Transactional
   public void getById() {
     ioService.print("Type comment id:");
     long commentId = Long.parseLong(ioService.read());
@@ -39,6 +40,20 @@ public class CommentServiceImpl implements CommentService {
       ioService.print(comment.toString());
     } else {
       ioService.print("comment wasn't found");
+    }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public void getCommentsByBookId() {
+    ioService.print("Type book id:");
+    long bookId = Long.parseLong(ioService.read());
+    Optional<Book> book = bookRepository.findById(bookId);
+    if (book.isPresent()) {
+      List<Comment> comments = book.get().getComments();
+      comments.forEach(c -> ioService.print(c.toString()));
+    } else {
+      ioService.print("book wasn't found");
     }
   }
 
@@ -61,8 +76,9 @@ public class CommentServiceImpl implements CommentService {
       ioService.print("comment with Id:" + genreId + " wasn't found");
     } else {
       ioService.print("Type comment text:");
-      String genreName = ioService.read();
-      commentRepository.updateById(comment.get().getId(), genreName);
+      String commentText = ioService.read();
+      comment.get().setText(commentText);
+      commentRepository.save(comment.get());
       ioService.print("comment was updated");
     }
   }
@@ -74,7 +90,7 @@ public class CommentServiceImpl implements CommentService {
     long genreId = Long.parseLong(ioService.read());
     Optional<Comment> comment = commentRepository.findById(genreId);
     if (comment.isPresent()) {
-      commentRepository.deleteById(comment.get().getId());
+      commentRepository.deleteById(comment.get());
       ioService.print("comment was deleted");
     } else {
       ioService.print("comment wasn't found");

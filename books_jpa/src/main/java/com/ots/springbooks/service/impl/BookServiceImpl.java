@@ -1,14 +1,13 @@
-package com.ots.springbooks.service;
+package com.ots.springbooks.service.impl;
 
 import com.ots.springbooks.models.Author;
 import com.ots.springbooks.models.Book;
 import com.ots.springbooks.models.Genre;
-import com.ots.springbooks.repositories.interfaces.AuthorRepository;
-import com.ots.springbooks.repositories.interfaces.BookRepository;
-import com.ots.springbooks.repositories.interfaces.CommentRepository;
-import com.ots.springbooks.repositories.interfaces.GenreRepository;
-import com.ots.springbooks.service.interfaces.BookService;
-import com.ots.springbooks.service.interfaces.IOService;
+import com.ots.springbooks.repositories.AuthorRepository;
+import com.ots.springbooks.repositories.BookRepository;
+import com.ots.springbooks.repositories.GenreRepository;
+import com.ots.springbooks.service.BookService;
+import com.ots.springbooks.service.IOService;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -26,10 +25,9 @@ public class BookServiceImpl implements BookService {
   private final BookRepository bookRepository;
   private final AuthorRepository authorRepository;
   private final GenreRepository genreRepository;
-  private final CommentRepository commentRepository;
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public void getAllBooks() {
     List<Book> books = bookRepository.findAll();
     if (!CollectionUtils.isEmpty(books)) {
@@ -40,7 +38,6 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  @Transactional
   public void getBookById() {
     ioService.print("Type book id:");
     long bookId = Long.parseLong(ioService.read());
@@ -98,7 +95,8 @@ public class BookServiceImpl implements BookService {
       Optional<Genre> genre = genreRepository.findById(genreId);
 
       if (author.isPresent() && genre.isPresent()) {
-        bookRepository.updateTitleById(bookId, bookName);
+        book.get().setTitle(bookName);
+        bookRepository.save(book.get());
         ioService.print("Book was updated");
       } else {
         ioService.print("Incorrect authorId or genreId");
@@ -115,7 +113,7 @@ public class BookServiceImpl implements BookService {
     long bookId = Long.parseLong(ioService.read());
     Optional<Book> book = bookRepository.findById(bookId);
     if (book.isPresent()) {
-      bookRepository.deleteById(book.get().getId());
+      bookRepository.deleteById(book.get());
       ioService.print("book was deleted");
     } else {
       ioService.print("book wasn't found");

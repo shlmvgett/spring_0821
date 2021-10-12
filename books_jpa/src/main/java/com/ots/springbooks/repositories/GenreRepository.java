@@ -1,4 +1,4 @@
-package com.ots.springbooks.repositories.interfaces;
+package com.ots.springbooks.repositories;
 
 import com.ots.springbooks.models.Genre;
 import java.util.List;
@@ -12,7 +12,5 @@ public interface GenreRepository {
 
   Genre save(Genre genre);
 
-  void updateTitleById(long id, String title);
-
-  void deleteById(long id);
+  void deleteById(Genre genre);
 }

@@ -1,4 +1,4 @@
-package com.ots.springbooks.repositories.interfaces;
+package com.ots.springbooks.repositories;
 
 import com.ots.springbooks.models.Author;
 import java.util.List;
@@ -12,7 +12,5 @@ public interface AuthorRepository {
 
   Author save(Author author);
 
-  void updateNameById(long id, String name);
-
-  void deleteById(long id);
+  void deleteById(Author author);
 }
