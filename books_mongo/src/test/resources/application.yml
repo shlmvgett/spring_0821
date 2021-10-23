@@ -1,0 +1,19 @@
+spring:
+    data:
+        mongodb:
+            port: 0
+            database: demodb
+
+    shell:
+        interactive:
+            enabled: false
+
+mongock:
+    runner-type: "ApplicationRunner"
+    #runner-type: "InitializingBean"
+    change-logs-scan-package:
+        - com.ots.springbooks
+    mongo-db:
+        write-concern:
+            journal: false
+        read-concern: local
