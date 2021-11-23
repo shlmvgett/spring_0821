@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>App</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<form id="save-form" th:method="post" th:action="@{/add}" th:object="${book}" action="save.html">
+    <h1>Add book</h1>
+
+    <div class="row">
+            <div class="col-md-4">
+                <label class="col-md-2" for="id-input">Title</label>
+                <input id="id-input" name="title" type="text" value="Book title"/>
+            </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="col-md-2" for="author-input">Author</label>
+            <select id="author-input" name="author">
+                <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}">
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="col-md-2" for="genre-input">Genre </label>
+            <select id="genre-input" name="genre">
+                <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.title}">
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>

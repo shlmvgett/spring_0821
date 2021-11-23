@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>App</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+<div class="common_block">
+    <table id="clientTable" style="width: 400px" class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Genre</td>
+            <td>Comments</td>
+            <td>Edit</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td th:text="${book.title}">The Great Expectations</td>
+            <td th:text="${book.author.name}">John Doe</td>
+            <td th:text="${book.genre.title}">Poem</td>
+            <td th:text="${#lists.size(book.comments)}">0</td>
+            <td>
+                <a class="nav-link" th:href="@{/edit(id=${book.id})}" href="edit.html">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a class="btn btn-primary" th:href="@{/add}" href="save.html">Add book</a>
+</div>
+</body>
+</html>
