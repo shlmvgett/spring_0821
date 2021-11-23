@@ -6,10 +6,8 @@ import com.ots.springbooks.service.GenreService;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-@Log4j2
 @Service
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {
