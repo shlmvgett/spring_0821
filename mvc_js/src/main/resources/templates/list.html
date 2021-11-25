@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Spring App</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <script th:src="@{/js/app.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body onLoad="loadPage()">
+<div style="display:inline-block;width:500px;margin-right: 100px">
+    <table id="excelDataTable" class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Genre</td>
+            <td>Comments</td>
+            <td>Edit</td>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<div style="display:inline-block;width:400px;">
+    <h1>Add book</h1>
+    <div class="row">
+        <label class="col-md-2" for="id-input">Title</label>
+        <input class="form-control" id="id-input" name="title" type="text" value="Book title"/>
+    </div>
+
+    <div class="row">
+        <label class="col-md-2" for="author-input">Author</label>
+        <select class="form-select" id="author-input" name="author">
+        </select>
+    </div>
+
+    <div class="row">
+        <label class="inline" for="genre-input">Genre </label>
+        <select class="form-select inline" id="genre-input" name="genre">
+        </select>
+    </div>
+
+    <div class="row">
+        <button onClick="addBook()" class="btn btn-primary">Save</button>
+    </div>
+</div>
+</body>
+</html>
