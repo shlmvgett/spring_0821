@@ -1,0 +1,15 @@
+spring:
+    data:
+        mongodb:
+            port: 0
+            database: test
+
+mongock:
+    #runner-type: "ApplicationRunner" # default
+    runner-type: "InitializingBean"
+    change-logs-scan-package:
+        - com.ots.springbooks.changelog
+    mongo-db:
+        write-concern:
+            journal: false
+        read-concern: local
