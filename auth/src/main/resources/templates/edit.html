@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>App</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<form id="edit-form" th:action="@{/edit}" th:object="${book}" th:method="post" action="edit.html">
+    <h1>Edit book</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <input id="id-input" name="id" hidden readonly type="text" th:value="${book.id}" value="1"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="col-md-2" for="holder-input">Title</label>
+            <input id="holder-input" name="title" type="text" th:value="${book.title}" value="John Doe"/>
+        </div>
+    </div>
+
+    <div class="row rrr">
+        <div class="col-md-4">
+            <label class="col-md-2" for="holder-input">Author</label>
+            <input id="author-input" name="author" type="text" th:value="${book.author.id}" value="John Doe"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label class="col-md-2" for="holder-input">Genre</label>
+            <input id="genre-input" name="genre" type="text" th:value="${book.genre.id}" value="John Doe"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
