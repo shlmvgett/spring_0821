@@ -18,8 +18,9 @@
             <td>Title</td>
             <td>Author</td>
             <td>Genre</td>
+            <td>Owner</td>
             <td>Comments</td>
-            <td>Edit</td>
+            <td th:if="${#request.isUserInRole('ADMIN')}">Edit</td>
         </tr>
         </thead>
     </table>

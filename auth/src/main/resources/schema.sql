@@ -17,6 +17,7 @@ CREATE TABLE books
 (
     id        BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title     VARCHAR(255),
+    owner     VARCHAR(255),
     author_id BIGINT,
     genre_id  BIGINT,
     FOREIGN KEY (author_id) REFERENCES authors (id) ON DELETE CASCADE,

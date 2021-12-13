@@ -1,6 +1,6 @@
 package com.ots.springbooks.models;
 
-import com.ots.springbooks.controllers.dto.BookCreationReq;
+import com.ots.springbooks.controllers.dto.BookCreationDto;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,8 +20,11 @@ public class Book {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @Column(name = "title", nullable = false, unique = false)
+  @Column(name = "title", nullable = false)
   private String title;
+
+  @Column(name = "owner", nullable = false)
+  private String owner;
 
   @JoinColumn(name = "author_id")
   @OneToOne(targetEntity = Author.class)
@@ -35,8 +38,9 @@ public class Book {
   @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Comment> comments;
 
-  public Book(String title, Author author, Genre genre) {
+  public Book(String title, String owner, Author author, Genre genre) {
     this.title = title;
+    this.owner = owner;
     this.author = author;
     this.genre = genre;
   }
@@ -48,9 +52,10 @@ public class Book {
     this.genre = genre;
   }
 
-  public Book(BookCreationReq bookCreationReq) {
-    this.title = bookCreationReq.getTitle();
-    this.author = new Author(bookCreationReq.getAuthorId());
-    this.genre = new Genre(bookCreationReq.getGenreId());
+  public Book(BookCreationDto bookCreationDto) {
+    this.title = bookCreationDto.getTitle();
+    this.owner = bookCreationDto.getOwner();
+    this.author = new Author(bookCreationDto.getAuthorId());
+    this.genre = new Genre(bookCreationDto.getGenreId());
   }
 }
