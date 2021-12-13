@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   @Transactional(readOnly = true)
+  @PostFilter("hasRole('ADMIN') or filterObject.owner == authentication.name")
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
   }
@@ -48,7 +50,7 @@ public class BookServiceImpl implements BookService {
     Optional<Genre> genre = genreRepository.findById(book.getGenre().getId());
 
     if (author.isPresent() && genre.isPresent()) {
-      Book newBook = new Book(book.getTitle(), author.get(), genre.get());
+      Book newBook = new Book(book.getTitle(), book.getOwner(), author.get(), genre.get());
       return bookRepository.save(newBook);
     } else {
       return null;

@@ -19,8 +19,16 @@ async function getGenres() {
     return await response.json();
 }
 
+async function getUserData() {
+    const response = await fetch('api/user')
+    return await response.json();
+}
+
 async function buildHtmlTable() {
     const books = await getBooks();
+    const user = await getUserData();
+    const isUserAdmin = user.roles.includes('ROLE_ADMIN');
+
     $("#excelDataTable").find('#excelData').remove()
 
     var row$ = $('<tbody id="excelData"/>');
@@ -30,8 +38,11 @@ async function buildHtmlTable() {
         row$.append($('<td/>').html(books[i].title));
         row$.append($('<td/>').html(books[i].author.name));
         row$.append($('<td/>').html(books[i].genre.title));
+        row$.append($('<td/>').html(books[i].owner));
         row$.append($('<td/>').html(books[i].comments.length));
-        row$.append($('<td/>').html('<a class="nav-link" href="/edit?id=' + books[i].id + '" href="edit.html">Edit</a>'));
+        if (isUserAdmin) {
+            row$.append($('<td/>').html('<a class="nav-link" href="/edit?id=' + books[i].id + '" href="edit.html">Edit</a>'));
+        }
         $("#excelDataTable").append(row$);
     }
 }
@@ -53,8 +64,10 @@ async function buildGenresOptions() {
 }
 
 async function addBook() {
+    const user = await getUserData();
     const bookDict = {
         "title": document.getElementById('id-input').value,
+        "owner": user.username,
         "authorId": parseInt(document.getElementById('author-input').value),
         "genreId": parseInt(document.getElementById('genre-input').value)
     };
