@@ -1,0 +1,36 @@
+spring:
+  main:
+    allow-circular-references: true
+
+  batch:
+    job:
+      enabled: false
+
+  shell:
+    interactive:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    initialization-mode: always
+
+  data:
+    mongodb:
+      port: 27017
+      database: demodb
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    show-sql: true
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - com.ots.springbooks
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
