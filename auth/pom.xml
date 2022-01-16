@@ -17,9 +17,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>15</java.version>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <java.version>11</java.version>
         <spring.shell.version>2.0.1.RELEASE</spring.shell.version>
     </properties>
 
@@ -83,9 +81,14 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>docker-compose-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

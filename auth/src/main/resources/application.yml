@@ -1,6 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
+#    url: jdbc:h2:mem:testdb
+    url: jdbc:postgresql://localhost:5430/demoDB
+    username: usr
+    password: pwd
     initialization-mode: always
 
   jpa:
