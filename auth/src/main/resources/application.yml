@@ -27,6 +27,10 @@ management:
     allowed-origins: http://localhost:9090/
     allowed-methods: GET,POST,OPTIONS
 
+logging:
+  file:
+    name: log.txt
+
 info:
   version: @project.version@
   author: dkogan
