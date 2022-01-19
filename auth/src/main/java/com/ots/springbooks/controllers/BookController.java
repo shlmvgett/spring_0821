@@ -3,7 +3,6 @@ package com.ots.springbooks.controllers;
 import com.ots.springbooks.models.Book;
 import com.ots.springbooks.service.BookService;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
