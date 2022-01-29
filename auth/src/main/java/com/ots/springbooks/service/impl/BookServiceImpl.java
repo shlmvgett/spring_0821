@@ -1,5 +1,6 @@
 package com.ots.springbooks.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.ots.springbooks.models.Author;
 import com.ots.springbooks.models.Book;
 import com.ots.springbooks.models.Genre;
@@ -7,6 +8,7 @@ import com.ots.springbooks.repositories.AuthorRepository;
 import com.ots.springbooks.repositories.BookRepository;
 import com.ots.springbooks.repositories.GenreRepository;
 import com.ots.springbooks.service.BookService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,20 @@ public class BookServiceImpl implements BookService {
   @PostFilter("hasRole('ADMIN') or filterObject.owner == authentication.name")
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
+  }
+
+  // For Hystrix debug
+  @Override
+  @HystrixCommand(fallbackMethod = "getAllBooksFallback")
+  @Transactional(readOnly = true)
+  public List<Book> getAllBooksWithException() {
+    if (true) throw new RuntimeException();
+    return bookRepository.findAll();
+  }
+
+  public List<Book> getAllBooksFallback() {
+    log.warn("Exception fallback: getAllBooksFallback");
+    return new ArrayList<>(List.of(bookRepository.findById(1L).get()));
   }
 
   @Override

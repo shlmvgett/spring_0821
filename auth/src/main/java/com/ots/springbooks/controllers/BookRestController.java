@@ -24,4 +24,10 @@ public class BookRestController {
   public Book saveClient(@RequestBody BookCreationDto bookCreationDto) {
     return bookService.insertBook(new Book(bookCreationDto));
   }
+
+  // For Hystrix debug
+  @GetMapping("/backdoor/api/books")
+  public List<Book> getBooksNoAuth() {
+    return bookService.getAllBooksWithException();
+  }
 }

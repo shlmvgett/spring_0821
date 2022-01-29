@@ -36,5 +36,10 @@ logging:
 
 info:
   version: @project.version@
-  author: dkogan
-  descriptiion: THis is SPring Bot example
+  author: Al
+  descriptiion: This is Spring Bot example
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list:
+      - 'localhost'

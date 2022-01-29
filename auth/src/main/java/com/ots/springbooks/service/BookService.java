@@ -8,6 +8,8 @@ public interface BookService {
 
   List<Book> getAllBooks();
 
+  List<Book> getAllBooksWithException();
+
   Optional<Book> getBookById(Long bookId);
 
   Optional<Book> getBookByTitle(String bookName);
