@@ -35,7 +35,7 @@ public class Book {
   private Genre genre;
 
   @JoinColumn(name = "book_id")
-  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   private List<Comment> comments;
 
   public Book(String title, String owner, Author author, Genre genre) {
